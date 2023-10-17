@@ -41,6 +41,8 @@ function Page() {
   ];
   const [greenItems, setGreenItems] = useState(greenArray);
   const [redItems, setRedItems] = useState(redArray);
+  const [greenInput, setGreenInput] = useState("");
+  const [redInput, setRedInput] = useState("");
 
   const toRed = () => {
     const selectedItems = greenItems.filter((item) => item.isSelected);
@@ -61,11 +63,34 @@ function Page() {
     setGreenItems((prevItems) => (color === "green" ? updateItems(prevItems) : prevItems));
     setRedItems((prevItems) => (color === "red" ? updateItems(prevItems) : prevItems));
   };
+
+//   const handleInput = (color) => {
+//     if(color === "green"){
+//         if(greenInput.trim() !== ""){
+//             const newGreenItem = {
+//                 id: greenItems.length + 1,
+//                 name: greenInput.trim()
+//             }
+//             setGreenItems([...greenItems, newGreenItem]);
+//             setGreenInput("");
+//         }
+//     }
+//     else if(color === "red"){
+//         if(redInput.trim() !== ""){
+//             const newRedItem = {
+//                 id: redItems.length + 1,
+//                 name: redInput.trim()
+//             }
+//             setRedItems([...redItems, newRedItem]);
+//             setRedInput("");
+//         }
+//     }
+//   }
   
 
   return (
     <div className="flex justify-between h-[calc(100vh-40px)] m-5 p-4 bg-gray-100 rounded-xl">
-      <div className="flex w-5/12 p-10 bg-green-300 rounded-lg">
+      <div className="flex flex-col gap-5 w-5/12 p-10 bg-green-300 rounded-lg">
         <ul className="text-xl">
           {greenItems.map((greenItem) => (
             <li className="flex m-1 gap-1 mt-5" key={greenItem.id} onClick={() => toggleSelection(greenItem.id, "green")}>
@@ -74,6 +99,8 @@ function Page() {
             </li>
           ))}
         </ul>
+        {/* <input type="text" placeholder="enter something..." value={greenInput} onChange={(e) => setGreenInput(e.target.value)}/>
+        <button onClick={() => handleInput("green")}>Add</button> */}
       </div>
       <div className="flex w-1/12 flex-col justify-center p-1 gap-10">
         <button onClick={toRed} className="flex justify-center bg-red-300 rounded-md py-2 px-6 hover:bg-red-400 active:bg-red-300">
@@ -85,7 +112,7 @@ function Page() {
           <img className="w-10" src={"/assets/icons/left-arrow.png"} alt="left"/>
         </button>
       </div>
-      <div className="flex w-5/12 p-10 bg-red-300 rounded-lg">
+      <div className="flex flex-col gap-5 w-5/12 p-10 bg-red-300 rounded-lg">
         <ul className="text-xl">
           {redItems.map((redItem) => (
             <li className="flex m-1 gap-1 mt-5" key={redItem.id} onClick={() => toggleSelection(redItem.id, "red")}>
@@ -94,6 +121,8 @@ function Page() {
             </li>
           ))}
         </ul>
+        {/* <input type="text" placeholder="enter something..." value={redInput} onChange={(e) => setRedInput(e.target.value)}/>
+        <button onClick={() => handleInput("red")}>Add</button> */}
       </div>
     </div>
   );
