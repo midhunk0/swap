@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 
 function Page() {
     // Define initial items without "id" field
-    const initialGreenArray = JSON.parse(localStorage.getItem("greenItems")) || [];
-    const initialRedArray = JSON.parse(localStorage.getItem("redItems")) || [];
+    const greenArray = JSON.parse(localStorage.getItem("greenItems")) || [];
+    const redArray = JSON.parse(localStorage.getItem("redItems")) || [];
 
     // Use a single state for both green and red items
     const [items, setItems] = useState({
-        green: initialGreenArray,
-        red: initialRedArray,
+        green: greenArray,
+        red: redArray,
     });
 
     // Use a single input state for both green and red
@@ -45,7 +45,8 @@ function Page() {
         }));
     };
 
-    const handleInput = (color) => {
+    const handleInput = (color, e) => {
+        e.preventDefault();
         if (input[color].trim() !== "") {
             setItems((prevItems) => ({
                 ...prevItems,
@@ -59,16 +60,15 @@ function Page() {
     };
 
     const getOppositeColor = (color) => (color === "green" ? "red" : "green");
-    localStorage.getItem("items", items);
 
     return (
-        <div className="flex justify-between h-[calc(100vh-40px)] m-5 p-4 bg-gray-100 rounded-xl">
+        <div className="flex justify-between h-[calc(100vh-40px)] m-5 p-4">
             {/* Green Column */}
             <div className="flex flex-col gap-5 w-5/12 p-10 bg-green-300 rounded-lg">
-                <div className="flex gap-5">
+                <form className="flex gap-5" onSubmit={(e) => handleInput("green", e)}>
                     <input className="pl-2 rounded-lg focus:outline-none" type="text" placeholder="enter something..." value={input.green} onChange={(e) => setInput({ ...input, green: e.target.value })}/>
-                    <button className="bg-green-200 p-2 rounded-lg hover:bg-green-100" onClick={() => handleInput("green")} >Add</button>
-                </div>
+                    <button className="bg-green-200 p-2 rounded-lg hover:bg-green-100" type="submit" >Add</button>
+                </form>
                 <ul className="text-xl">
                     {items.green.map((greenItem, index) => (
                         <li className="flex m-1 gap-1 mt-5" key={index} onClick={() => toggleSelection("green", index)} >
@@ -91,10 +91,10 @@ function Page() {
 
             {/* Red Column */}
             <div className="flex flex-col gap-5 w-5/12 p-10 bg-red-300 rounded-lg">
-                <div className="flex gap-5">
+                <form className="flex gap-5" onSubmit={(e) => handleInput("red", e)}>
                     <input className="pl-2 rounded-lg focus:outline-none" type="text" placeholder="enter something..." value={input.red} onChange={(e) => setInput({ ...input, red: e.target.value })}/>
-                    <button className="bg-red-200 p-2 rounded-lg hover:bg-red-100" onClick={() => handleInput("red")}>Add</button>
-                </div>
+                    <button className="bg-red-200 p-2 rounded-lg hover:bg-red-100" type="submit">Add</button>
+                </form>
                 <ul className="text-xl">
                     {items.red.map((redItem, index) => (
                         <li className="flex m-1 gap-1 mt-5" key={index} onClick={() => toggleSelection("red", index)} >
