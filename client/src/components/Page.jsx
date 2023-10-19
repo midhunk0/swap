@@ -1,16 +1,16 @@
 // @ts-nocheck
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Page() {
     // Define initial items without "id" field
-    const initialGreenArray = [];
-    const initialRedArray = [];
+    const initialGreenArray = JSON.parse(localStorage.getItem("greenItems")) || [];
+    const initialRedArray = JSON.parse(localStorage.getItem("redItems")) || [];
 
     // Use a single state for both green and red items
     const [items, setItems] = useState({
-        green: initialGreenArray.map((name) => ({ name, isSelected: false })),
-        red: initialRedArray.map((name) => ({ name, isSelected: false })),
+        green: initialGreenArray,
+        red: initialRedArray,
     });
 
     // Use a single input state for both green and red
@@ -18,6 +18,11 @@ function Page() {
         green: "",
         red: "",
     });
+
+    useEffect(() => {
+        localStorage.setItem("greenItems", JSON.stringify(items.green));
+        localStorage.setItem("redItems", JSON.stringify(items.red));
+    }, [items]);
 
     const toOpposite = (color) => {
         const selectedItems = items[color].filter((item) => item.isSelected);
@@ -54,6 +59,7 @@ function Page() {
     };
 
     const getOppositeColor = (color) => (color === "green" ? "red" : "green");
+    localStorage.getItem("items", items);
 
     return (
         <div className="flex justify-between h-[calc(100vh-40px)] m-5 p-4 bg-gray-100 rounded-xl">
